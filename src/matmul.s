@@ -115,7 +115,26 @@ inner_loop_start:
     j inner_loop_start
     
 inner_loop_end:
-    # TODO: Add your own implementation
+    # Increment the row counter for matrix A
+    addi s0, s0, 1
+    mv t1, a2
+    # Reset the result matrix pointer for the next row
+    slli t1, t1, 2
+    add s3, s3, t1 # Move to the next row in matrix A
+    j outer_loop_start
+
+outer_loop_end:
+    # Epilogue
+    lw ra, 0(sp)
+    lw s0, 4(sp)
+    lw s1, 8(sp)
+    lw s2, 12(sp)
+    lw s3, 16(sp)
+    lw s4, 20(sp)
+    lw s5, 24(sp)
+    addi sp, sp, 28
+    
+    ret
 
 error:
     li a0, 38
