@@ -30,8 +30,28 @@ argmax:
     li t1, 0
     li t2, 1
 loop_start:
-    # TODO: Add your own implementation
+    
+    # t0: saved the current maximum
+    # t1: saved the index of maximum element
+    # t2: used for the index of loop iteration 
+    # t3: used for the current element
 
+    beq t2, a1, loop_end # Check if reaching the end of the array
+    
+    lw t3, 0(a0) # Load the current array element
+    addi a0, a0, 4 # Move to the next array element's position
+
+    bgt t3, t0, update_maximum # If t3 (current element) > t0 (current maximum), update
+    j next_iteration
+update_maximum:
+    mv t0, t3 # Update the maximum
+    addi t1, t2, -1 # Update the position of maximum
+next_iteration:
+    addi t2, t2, 1 # Increment loop index
+    j loop_start 
+loop_end:
+    mv a0, t1 # Save the position of the maximum element and return
+    ret
 handle_error:
     li a0, 36
     j exit
