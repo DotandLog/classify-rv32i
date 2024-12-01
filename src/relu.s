@@ -28,8 +28,27 @@ relu:
     li t1, 0             
 
 loop_start:
-    # TODO: Add your own implementation
+    # t1: the idex for the loop iteration
+    
+    # Check if reaching the end of the array
+    beq t1, a1, end_loop
+    
+    slli t2, t1, 2 # Get the offset from the array
+    add t3, a0, t2 # Get the current address of element  
+    lw t4, 0(t3) # load the value from the address
 
+    # Check if the value is greater than zero
+    bgt t3, zero, next_iteration
+    
+    # Update the element to 0 if the origin value < 0
+    sw zero, 0(t3)
+
+next_iteration:
+    addi t1, t1, 1
+    j loop_start
+
+end_loop:
+    j exit
 error:
     li a0, 36          
     j exit          

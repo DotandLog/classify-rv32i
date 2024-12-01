@@ -45,7 +45,7 @@ loop_start:
     j next_iteration
 update_maximum:
     mv t0, t3 # Update the maximum
-    addi t1, t2, -1 # Update the position of maximum
+    addi t1, t2, -1 # Update the position of maximum, since the answer should based on 0-index, decrement the value.
 next_iteration:
     addi t2, t2, 1 # Increment loop index
     j loop_start 
