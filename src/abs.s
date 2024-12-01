@@ -20,9 +20,10 @@ abs:
     # Load number from memory
     lw t0 0(a0)
     bge t0, zero, done
-
     # TODO: Add your own implementation
-
+    # If t0 < 0, turn the negative to positive by using 'sub' inst.
+    sub t0, zero, t0
+    sw t0, 0(a0) # Save the value back to a0
 done:
     # Epilogue
     jr ra
