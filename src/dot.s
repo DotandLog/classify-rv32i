@@ -35,12 +35,28 @@ dot:
     li t1, 0         
 
 loop_start:
-    bge t1, a2, loop_end
-    # TODO: Add your own implementation
+    bge t1, a2, loop_end  # If loop counter >= element count, exit loop
+    
+    mul t2, a3, t1       # Calculate offset for first array: t2 = t1 * stride0
+    mul t3, a4, t1       # Calculate offset for second array: t3 = t1 * stride1
+    slli t2, t2, 2       # Convert offset to byte offset (assuming 4-byte integers)
+    slli t3, t3, 2       # Convert offset to byte offset
 
+    add t4, a0, t2       # Calculate address of current element in first array
+    add t5, a1, t3       # Calculate address of current element in second array
+
+    lw t4, 0(t4)         # Load value from first array
+    lw t5, 0(t5)         # Load value from second array
+    
+    mul t6, t4, t5       # Multiply the two values
+    add t0, t0, t6       # Accumulate the product into the result
+
+    addi t1, t1, 1       # Increment loop counter
+
+    j loop_start         # Repeat the loop
 loop_end:
-    mv a0, t0
-    jr ra
+    mv a0, t0            # Move the result into a0 for return
+    jr ra                # Return from function
 
 error_terminate:
     blt a2, t0, set_error_36
