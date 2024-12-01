@@ -61,8 +61,16 @@ write_matrix:
     li t0, 2
     bne a0, t0, fwrite_error
 
-    # mul s4, s2, s3   # s4 = total elements
-    # FIXME: Replace 'mul' with your own implementation
+   # Implement multiplication using repeated addition
+    li s4, 0          # Initialize s4 to 0 (this will hold the result)
+    mv t0, s2         # Copy number of rows to t0 (counter)
+multiply_loop:
+    beqz t0, end_multiply  # If t0 is zero, exit loop
+    add s4, s4, s3    # Add number of columns to s4
+    addi t0, t0, -1   # Decrement counter
+    j multiply_loop   # Repeat loop
+
+end_multiply:
 
     # write matrix data to file
     mv a0, s0
