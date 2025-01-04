@@ -167,6 +167,19 @@ classify:
     lw t0, 0(s3)
     lw t1, 0(s8)
     # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    
+    li a0, 0
+multiply_1:
+    beq t1, zero, multiply_break
+    andi t3, t1, 1            
+    beq t3, zero, multiply_loop1       
+    add a0, a0, t0                
+multiply_loop1:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j multiply_1
+multiply_break:
+
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
@@ -205,7 +218,17 @@ classify:
     lw t1, 0(s8)
     # mul a1, t0, t1 # length of h array and set it as second argument
     # FIXME: Replace 'mul' with your own implementation
-    
+    li a1, 0
+multiply_2:
+    beq t1, zero, multiply_break_2
+    andi t3, t1, 1            
+    beq t3, zero, multiply_loop2       
+    add a1, a1, t0                
+multiply_loop2:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j multiply_2
+multiply_break_2:
     jal relu
     
     lw a0, 0(sp)
@@ -227,6 +250,17 @@ classify:
     lw t0, 0(s3)
     lw t1, 0(s6)
     # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    li a0, 0
+multiply_3:
+    beq t1, zero, multiply_break_3
+    andi t3, t1, 1            
+    beq t3, zero, multiply_loop3     
+    add a0, a0, t0                
+multiply_loop3:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j multiply_3
+multiply_break_3:
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
@@ -286,9 +320,19 @@ classify:
     mv a0, s10 # load o array into first arg
     lw t0, 0(s3)
     lw t1, 0(s6)
-    mul a1, t0, t1 # load length of array into second arg
+    #mul a1, t0, t1 # load length of array into second arg
     # FIXME: Replace 'mul' with your own implementation
-    
+    li a1, 0
+multiply_4:
+    beq t1, zero, multiply_break_4
+    andi t3, t1, 1            
+    beq t3, zero, multiply_loop4    
+    add a1, a1, t0                
+multiply_loop4:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j multiply_4
+multiply_break_4:
     jal argmax
     
     mv t0, a0 # move return value of argmax into t0
